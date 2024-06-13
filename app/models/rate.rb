@@ -14,5 +14,5 @@ class Rate < ApplicationRecord
   has_many :comments
   has_many :scores
 
-  valudates :is_home_team, inclusion: {in: [true, false]}
+  validates :is_home_team, inclusion: {in: [true, false]}
 end
