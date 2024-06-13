@@ -12,5 +12,5 @@ class Comment < ApplicationRecord
   belongs_to :rate
   belongs_to :user
 
-  valudates :body, presence: true
+  validates :body, presence: true
 end
