@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   namespace :auth do
     resources :sessions, only: %i[index]
   end
+
+  get "hello_world", to: 'application#hello_world'
 end
