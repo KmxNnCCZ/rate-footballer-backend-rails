@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  short_name: MyString
+  tla: MyString
+  team_api_id: 1
+  venue: MyString
+  creset_url: MyString
+
+two:
+  name: MyString
+  short_name: MyString
+  tla: MyString
+  team_api_id: 1
+  venue: MyString
+  creset_url: MyString

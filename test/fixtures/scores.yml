@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player: one
+  rate: one
+  score: 1.5
+  assesment: MyText
+
+two:
+  player: two
+  rate: two
+  score: 1.5
+  assesment: MyText
