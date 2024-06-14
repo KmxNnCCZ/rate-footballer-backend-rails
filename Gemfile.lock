@@ -137,16 +137,6 @@ GEM
     nio4r (2.7.3)
     nokogiri (1.16.6-aarch64-linux)
       racc (~> 1.4)
-    nokogiri (1.16.6-arm-linux)
-      racc (~> 1.4)
-    nokogiri (1.16.6-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.16.6-x86-linux)
-      racc (~> 1.4)
-    nokogiri (1.16.6-x86_64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.16.6-x86_64-linux)
-      racc (~> 1.4)
     omniauth (2.1.2)
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
@@ -233,11 +223,6 @@ GEM
 
 PLATFORMS
   aarch64-linux
-  arm-linux
-  arm64-darwin
-  x86-linux
-  x86_64-darwin
-  x86_64-linux
 
 DEPENDENCIES
   bootsnap
