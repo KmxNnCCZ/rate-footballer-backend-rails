@@ -241,9 +241,6 @@ DEPENDENCIES
   devise
   devise_token_auth
   foreman
-  net-imap
-  net-pop
-  net-smtp
   omniauth (>= 1.0.0)
   pg (~> 1.1)
   pry-byebug
