@@ -45,9 +45,6 @@ gem 'omniauth', '>= 1.0.0'
 gem "validate_url"
 
 gem "foreman"
-gem 'net-smtp'
-gem 'net-imap'
-gem 'net-pop'
 
 
 group :development, :test do
