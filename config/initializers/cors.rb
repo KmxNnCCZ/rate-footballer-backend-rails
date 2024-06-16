@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "localhost:3000", "https://rate-footballer-frontend-react-877c7a3f3d30.herokuapp.com/login"
+    origins "localhost:3000", "https://rate-footballer-frontend-react-877c7a3f3d30.herokuapp.com"
 
     resource "*",
       headers: :any,
