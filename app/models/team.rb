@@ -4,7 +4,7 @@
   t.string "tla", limit: 3, null: false
   t.integer "team_api_id", null: false
   t.string "venue", null: false
-  t.string "creset_url", null: false
+  t.string "crest_url", null: false
   t.datetime "created_at", null: false
   t.datetime "updated_at", null: false
 =end
@@ -20,5 +20,5 @@ class Team < ApplicationRecord
   validates :tla, presence: true, length: { is: 3 }
   validates :team_api_id, presence: true, numericality: { only_integer: true }
   validates :venue, presence: true
-  validates :creset_url, presence: true, url: { allow_blank: true }
+  validates :crest_url, presence: true, url: { allow_blank: true }
 end

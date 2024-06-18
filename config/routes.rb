@@ -13,5 +13,7 @@ Rails.application.routes.draw do
 
   resources :matches, only: %i[index], controller: 'competition_matches'
 
+
+  resources :test, only: %i[index]
   get "hello_world", to: 'application#hello_world'
 end
