@@ -15,5 +15,5 @@ class Player < ApplicationRecord
 
   validates :name, presence: true
   validates :position, presence: true
-  validates :shirt_number, presence: true, length: { in: 1..2 }
+  validates :shirt_number, presence: true, length: { in: 1..2 }, allow_nil: true
 end
