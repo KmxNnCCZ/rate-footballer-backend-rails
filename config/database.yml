@@ -90,6 +90,7 @@ test:
 # Herokuデプロイ時に再度見直す
 production:
   <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
   database: rate_footballer_production
-  username: rate_footballer
+  username: postgres
   password: <%= ENV["RATE_FOOTBALLER_DATABASE_PASSWORD"] %>
