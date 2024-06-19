@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_18_115354) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_19_091409) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,8 +50,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_18_115354) do
   end
 
   create_table "players", force: :cascade do |t|
-    t.string "name"
-    t.string "position"
+    t.string "name", null: false
+    t.string "position", null: false
     t.integer "shirt_number", limit: 2
     t.bigint "team_id"
     t.datetime "created_at", null: false

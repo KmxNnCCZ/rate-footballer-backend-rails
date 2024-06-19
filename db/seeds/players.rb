@@ -14,7 +14,9 @@
 base_url = "http://api.football-data.org/v4/competitions/PL/teams"
 header = { 'X-Auth-Token' => ENV['FOOTBALL_DATA_API_TOKEN']}
 
-url = URI.parse(base_url)
+full_url = "#{base_url}?season=#{2023}"
+
+url = URI.parse(full_url)
 https = Net::HTTP.new(url.host, url.port)
 
 request = Net::HTTP::Get.new(url)
@@ -27,32 +29,17 @@ parsed_response = JSON.parse(response_body)
 
 array_response = parsed_response['teams']
 
-required_information = []
-
 array_response.each{|data|
   team = Team.find_by(tla: data["tla"])
   squad = data["squad"]
 
   squad.each{|player|
-    selected_data = {
-      team: team,
-      name: player["name"],
-      position: player["position"],
-      shirt_number: player["shirtNumber"]
-    }
-
-    required_information.push(selected_data)
+    if Player.find_by(name: player["name"]).nil?
+      team.players.create!(
+        name: player["name"],
+        position: player["position"],
+        shirt_number: player["shirtNumber"]
+      )
+    end
   }
-}
-
-
-p required_information
-
-required_information.each{ |player|
-  team = player[:team]
-  team.players.create!(
-    name: player[:name],
-    position: player[:position],
-    shirt_number: player[:shirt_number]
-  )
 }

@@ -17,7 +17,9 @@
 base_url = "http://api.football-data.org/v4/competitions/PL/teams"
 header = { 'X-Auth-Token' => ENV['FOOTBALL_DATA_API_TOKEN']}
 
-url = URI.parse(base_url)
+full_url = "#{base_url}?season=#{2023}"
+
+url = URI.parse(full_url)
 https = Net::HTTP.new(url.host, url.port)
 
 request = Net::HTTP::Get.new(url)
@@ -30,30 +32,16 @@ parsed_response = JSON.parse(response_body)
 
 array_response = parsed_response['teams']
 
-# 得られた情報から必要な情報だけを抽出
-required_information = []
+# 得られた情報から必要な情報だけを抽出して保存
 array_response.each{|data|
-  selected_data = {
-    name: data["name"],
-    short_name: data["shortName"],
-    tla: data["tla"],
-    team_api_id: data["id"],
-    venue: data["venue"],
-    crest_url: data["crest"]
-  }
-  required_information.push(selected_data)
-}
-
-# p required_information
-
-required_information.each{ |team|
-  p team
-  Team.create!(
-    name: team[:name],
-    short_name: team[:short_name],
-    tla: team[:tla],
-    team_api_id: team[:team_api_id],
-    venue: team[:venue],
-    crest_url: team[:crest_url]
-  )
+  if Team.find_by(tla: data["tla"]).nil?
+    Team.create!(
+      name: data["name"],
+      short_name: data["shortName"],
+      tla:  data["tla"],
+      team_api_id: data["id"],
+      venue: data["venue"],
+      crest_url: data["crest"]
+    )
+  end
 }
