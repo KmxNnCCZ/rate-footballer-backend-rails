@@ -14,7 +14,7 @@
 base_url = "http://api.football-data.org/v4/competitions/PL/teams"
 header = { 'X-Auth-Token' => ENV['FOOTBALL_DATA_API_TOKEN']}
 
-full_url = "#{base_url}?season=#{2023}"
+full_url = "#{base_url}?season=#{2021}"
 
 url = URI.parse(full_url)
 https = Net::HTTP.new(url.host, url.port)

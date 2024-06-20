@@ -1,12 +1,7 @@
 class TestController < ApplicationController
   def index
     p "TestController"
-    p "TestController"
-    p "TestController"
-    p "TestController"
-    p "TestController"
-    p "TestController"
-    p "TestController"
+    p params
     base_url = "http://api.football-data.org/v4"
     header = { 'X-Auth-Token' => ENV['FOOTBALL_DATA_API_TOKEN']}
     
