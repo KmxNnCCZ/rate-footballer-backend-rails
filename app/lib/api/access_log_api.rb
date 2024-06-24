@@ -5,9 +5,8 @@ module Api
     BASE_URL = "http://api.football-data.org/v4"
     HEADER = { 'X-Auth-Token' => ENV['FOOTBALL_DATA_API_TOKEN']}
   
-    def self.get(*paths)
-      path = "/" + paths.join("/")
-      concatenated_uri = BASE_URL + path
+    def self.get(path)
+      concatenated_uri = "#{BASE_URL}/#{path}"
 
       url = URI.parse(concatenated_uri)
       https = Net::HTTP.new(url.host, url.port)

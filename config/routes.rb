@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :sessions, only: %i[index]
   end
 
-  resources :matches, only: %i[index], controller: 'competition_matches'
+  resources :matches, only: %i[index show], controller: 'competition_matches'
   resources :team, only: %i[index]
 
 
