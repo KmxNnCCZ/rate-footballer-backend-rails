@@ -18,7 +18,7 @@ header = { 'X-Auth-Token' => ENV['FOOTBALL_DATA_API_TOKEN']}
 
 
 (1..38).each{|matchday|
-  full_url = "#{base_url}?matchday=#{matchday}&season=#{2021}"
+  full_url = "#{base_url}?matchday=#{matchday}&season=#{2022}"
   p full_url
 
   url = URI.parse(full_url)
