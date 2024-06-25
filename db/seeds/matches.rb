@@ -7,7 +7,7 @@
 # t.integer "away_team_score", null: false
 # t.bigint "home_team_id"
 # t.bigint "away_team_id"
-# t.integer "match_day"
+# t.integer "matchday"
 # t.datetime "created_at", null: false
 # t.datetime "updated_at", null: false
 # t.index ["away_team_id"], name: "index_matches_on_away_team_id"
@@ -47,7 +47,7 @@ header = { 'X-Auth-Token' => ENV['FOOTBALL_DATA_API_TOKEN']}
         season: season,
         home_team_score: data["score"]["fullTime"]["home"],
         away_team_score: data["score"]["fullTime"]["away"],
-        match_day:  data["matchday"],
+        matchday:  data["matchday"],
         home_team_id: home_team.id,
         away_team_id: away_team.id
       )

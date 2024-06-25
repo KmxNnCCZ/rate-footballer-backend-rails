@@ -36,7 +36,6 @@ class CompetitionMatchesController < ApplicationController
         }
       }
     end
-    p matches_with_team_data
     render json: matches_with_team_data
   end
 
