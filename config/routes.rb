@@ -12,8 +12,6 @@ Rails.application.routes.draw do
   end
 
   resources :matches, only: %i[index show], controller: 'competition_matches'
-  resources :team, only: %i[index]
-
 
   resources :test, only: %i[index]
   get "hello_world", to: 'application#hello_world'
