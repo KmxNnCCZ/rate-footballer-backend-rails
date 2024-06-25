@@ -17,4 +17,11 @@ class CompetitionMatchesController < ApplicationController
 
     render json: matches
   end
+
+  def show
+    p params[:id]
+    res = Api::AccessLog.get("matches/#{params[:id]}")
+    p res
+    render json: res
+  end
 end

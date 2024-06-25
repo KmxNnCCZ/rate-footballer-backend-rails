@@ -5,8 +5,8 @@ require Rails.root.join('app', 'lib', 'api', 'access_log_api')
 module Api
   class AccessLog
 
-      def self.all(*paths)
-        Api::AccessLogApi.get(*paths)
+      def self.get(path)
+        Api::AccessLogApi.get(path)
       end
 
     def has_error?
