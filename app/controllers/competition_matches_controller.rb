@@ -13,15 +13,30 @@ class CompetitionMatchesController < ApplicationController
     end
 
     matches = matches.includes(:home_team, :away_team)
+    p matches
 
     matches_with_team_data = matches.map do |match|
       {
-        match: match,
-        home_team_data: match.home_team,
-        away_team_data: match.away_team
+        match: {
+          match_api_id: match.match_api_id,
+          utcDate: match.utcDate,
+          home_team_score: match.home_team_score,
+          away_team_score: match.away_team_score,
+          matchday: match.matchday
+        },
+        home_team_data: {
+          tla: match.home_team.tla,
+          venue: match.home_team.venue,
+          crest_url: match.home_team.crest_url,
+
+        },
+        away_team_data: {
+          tla: match.away_team.tla,
+          crest_url: match.away_team.crest_url,
+        }
       }
     end
-  
+    p matches_with_team_data
     render json: matches_with_team_data
   end
 
