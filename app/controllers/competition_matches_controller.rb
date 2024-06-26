@@ -40,9 +40,21 @@ class CompetitionMatchesController < ApplicationController
   end
 
   def show
-    p params[:id]
     res = Api::AccessLog.get("matches/#{params[:id]}")
     p res
-    render json: res
+
+    if params[:team]
+      parsed_res = JSON.parse(res) # レスポンスをJSON形式に変換
+      team_data = parsed_res["#{params[:team]}Team"]
+      team_data[:matchday] = parsed_res["matchday"]
+      reverse_team = params[:team] == "home" ? "away" : "home"
+      team_data[:awayTeamName] = parsed_res["#{reverse_team}Team"]["name"]
+      team_data[:awayTeamCrest] = parsed_res["#{reverse_team}Team"]["crest"]
+      team_data[:score] = "#{parsed_res["score"]["fullTime"][params["team"]]}-#{parsed_res["score"]["fullTime"][reverse_team]}"
+      # p team_data
+      render json: team_data
+    else
+      render json: res
+    end
   end
 end
