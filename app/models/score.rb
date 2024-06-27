@@ -17,5 +17,5 @@ class Score < ApplicationRecord
                       greater_than_or_equal_to: 0.0, 
                       less_than_or_equal_to: 10.0 
                     }
-  validates :assesment, presence: true
+  validates :assessment, presence: true, allow_nil: true
 end
