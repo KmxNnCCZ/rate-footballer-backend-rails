@@ -34,12 +34,16 @@ array_response.each{|data|
   squad = data["squad"]
 
   squad.each{|player|
-    if Player.find_by(name: player["name"]).nil?
+    get_player = Player.find_by(name: player["name"])
+    if get_player.nil? 
       team.players.create!(
         name: player["name"],
         position: player["position"],
-        shirt_number: player["shirtNumber"]
+        shirt_number: player["shirtNumber"],
+        player_api_id: player["id"]
       )
+    else get_player.player_api_id.nil?
+      get_player.update(player_api_id: player["id"])
     end
   }
 }

@@ -13,7 +13,6 @@ class CompetitionMatchesController < ApplicationController
     end
 
     matches = matches.includes(:home_team, :away_team)
-    p matches
 
     matches_with_team_data = matches.map do |match|
       {
@@ -41,7 +40,6 @@ class CompetitionMatchesController < ApplicationController
 
   def show
     res = Api::AccessLog.get("matches/#{params[:id]}")
-    p res
 
     if params[:team]
       parsed_res = JSON.parse(res) # レスポンスをJSON形式に変換
@@ -51,7 +49,6 @@ class CompetitionMatchesController < ApplicationController
       team_data[:awayTeamName] = parsed_res["#{reverse_team}Team"]["name"]
       team_data[:awayTeamCrest] = parsed_res["#{reverse_team}Team"]["crest"]
       team_data[:score] = "#{parsed_res["score"]["fullTime"][params["team"]]}-#{parsed_res["score"]["fullTime"][reverse_team]}"
-      # p team_data
       render json: team_data
     else
       render json: res
