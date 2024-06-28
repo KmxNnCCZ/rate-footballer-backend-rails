@@ -18,7 +18,7 @@ header = { 'X-Auth-Token' => ENV['FOOTBALL_DATA_API_TOKEN']}
 
 
 (1..38).each{|matchday|
-  full_url = "#{base_url}?matchday=#{matchday}&season=#{2022}"
+  full_url = "#{base_url}?matchday=#{matchday}&season=#{2021}"
   p full_url
 
   url = URI.parse(full_url)
@@ -29,7 +29,7 @@ header = { 'X-Auth-Token' => ENV['FOOTBALL_DATA_API_TOKEN']}
 
   response_body = https.request(request).read_body
 
-  # Parse the JSON response body into a Ruby hash
+  # Parse the JSON response body into a Ruby has
   parsed_response = JSON.parse(response_body)
 
   array_response = parsed_response['matches']
