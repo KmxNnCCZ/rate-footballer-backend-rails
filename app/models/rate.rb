@@ -11,8 +11,7 @@
 class Rate < ApplicationRecord
   belongs_to :match
   belongs_to :user
+  belongs_to :team
   has_many :comments
   has_many :scores
-
-  validates :is_home_team, inclusion: {in: [true, false]}
 end
