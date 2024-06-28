@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_27_150712) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_28_030011) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,12 +61,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_150712) do
   end
 
   create_table "rates", force: :cascade do |t|
-    t.boolean "is_home_team", null: false
     t.bigint "match_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "team_id", null: false
     t.index ["match_id"], name: "index_rates_on_match_id"
+    t.index ["team_id"], name: "index_rates_on_team_id"
     t.index ["user_id"], name: "index_rates_on_user_id"
   end
 
@@ -123,6 +124,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_150712) do
   add_foreign_key "matches", "teams", column: "home_team_id"
   add_foreign_key "players", "teams"
   add_foreign_key "rates", "matches"
+  add_foreign_key "rates", "teams"
   add_foreign_key "rates", "users"
   add_foreign_key "scores", "players"
   add_foreign_key "scores", "rates"
