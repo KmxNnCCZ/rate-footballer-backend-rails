@@ -1,5 +1,5 @@
 class AddMatchDayToMatches < ActiveRecord::Migration[7.1]
   def change
-    add_column :matches, :match_day, :integer
+    add_column :matches, :matchday, :integer
   end
 end

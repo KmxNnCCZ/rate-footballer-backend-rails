@@ -14,7 +14,7 @@
 base_url = "http://api.football-data.org/v4/competitions/PL/teams"
 header = { 'X-Auth-Token' => ENV['FOOTBALL_DATA_API_TOKEN']}
 
-full_url = "#{base_url}?season=#{2021}"
+full_url = "#{base_url}?season=#{2023}"
 
 url = URI.parse(full_url)
 https = Net::HTTP.new(url.host, url.port)
@@ -42,8 +42,6 @@ array_response.each{|data|
         shirt_number: player["shirtNumber"],
         player_api_id: player["id"]
       )
-    else get_player.player_api_id.nil?
-      get_player.update(player_api_id: player["id"])
     end
   }
 }

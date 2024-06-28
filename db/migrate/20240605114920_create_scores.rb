@@ -4,7 +4,7 @@ class CreateScores < ActiveRecord::Migration[7.1]
       t.references :player, null: false, foreign_key: true
       t.references :rate, null: false, foreign_key: true
       t.float :score, null: false
-      t.text :assesment
+      t.text :assessment
 
       t.timestamps null: false
     end
