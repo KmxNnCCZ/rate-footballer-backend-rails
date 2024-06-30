@@ -126,6 +126,11 @@ class RatesController < ApplicationController
     end
   end
 
+  def destroy
+    rate = Rate.find(params[:id]);
+    rate.destroy
+  end
+
 
   private
 
