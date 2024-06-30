@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   resources :matches, only: %i[index show], controller: 'competition_matches'
   resources :rates, only: %i[index show create edit update destroy]
+  resources :comments, only: %i[create update destroy]
 
   resources :test, only: %i[index]
   get "hello_world", to: 'application#hello_world'

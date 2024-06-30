@@ -44,9 +44,17 @@ class RatesController < ApplicationController
           score: score.score,
           assessment: score.assessment,
         }
+      end,
+      comments: rate.comments.includes(:user).map do |comment|
+        {
+          id: comment.id,
+          user_id: comment.user_id,
+          user_name: comment.user.name,
+          body: comment.body,
+          updated_at: comment.updated_at
+        }
       end
     }
-
     render json: rate_with_scores
   end
 
