@@ -12,6 +12,6 @@ class Rate < ApplicationRecord
   belongs_to :match
   belongs_to :user
   belongs_to :team
-  has_many :comments
-  has_many :scores
+  has_many :comments, dependent: :destroy
+  has_many :scores, dependent: :destroy
 end

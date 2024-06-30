@@ -13,14 +13,40 @@ class RatesController < ApplicationController
         scores: rate.scores.map do |score|
           {
             player_id: score.player_id,
-            score: score.score,
-            name: score.player.name,
             position: score.player.position,
-            shirt_number: score.player.shirt_number
+            shirt_number: score.player.shirt_number,
+            name: score.player.name,
+            score: score.score,
           }
         end
       }
     end
+    render json: rate_with_scores
+  end
+
+  def show
+    rate = Rate.includes(:match, :team, :user, scores: :player).find(params[:id])
+    rate_with_scores = {
+      id: rate.id,
+      matchday: rate.match.matchday,
+      match_api_id: rate.match.match_api_id,
+      season: rate.match.season,
+      user_id: rate.user_id,
+      user_name: rate.user.name,
+      team_name: rate.team.name,
+      team_crest_url: rate.team.crest_url,
+      scores: rate.scores.map do |score|
+        {
+          player_id: score.player_id,
+          position: score.player.position,
+          shirt_number: score.player.shirt_number,
+          name: score.player.name,
+          score: score.score,
+          assessment: score.assessment,
+        }
+      end
+    }
+
     render json: rate_with_scores
   end
 
@@ -52,6 +78,57 @@ class RatesController < ApplicationController
         end
       end
     end
+  end
+
+  def edit
+    rate = Rate.includes(:match, :team, :user, scores: :player).find(params[:id])
+    is_home = rate.match.home_team_id == rate.team_id
+    match = rate.match
+    reverse_team = is_home ? match.away_team : match.home_team
+
+    rate_with_scores = {
+      id: rate.id,
+      matchday: rate.match.matchday,
+      match_api_id: rate.match.match_api_id,
+      season: rate.match.season,
+      user_id: rate.user_id,
+      team_id: rate.team_id,
+      user_name: rate.user.name,
+      team_name: rate.team.name,
+      team_crest_url: rate.team.crest_url,
+      reverse_team_name: reverse_team.name,
+      reverse_team_crest_url: reverse_team.crest_url,
+      match_score: is_home ? "#{rate.match.home_team_score}-#{rate.match.away_team_score}" : "#{rate.match.away_team_score}-#{rate.match.home_team_score}",
+      scores: rate.scores.map do |score|
+        player = score.player
+        {
+          player_id: player.id,
+          position: player.position,
+          shirt_number: player.shirt_number,
+          name: player.name,
+          score: score.score,
+          assessment: score.assessment,
+        }
+      end
+    }
+    render json: rate_with_scores
+  end
+
+  def update
+    params[:player_rates].each do |player_rate|
+      score = Score.find_by(rate_id: params[:id], player_id: player_rate[:player_id])
+      next Rails.logger.error "Score not found for player_id #{player_rate[:player_id]}" unless score
+  
+      score_params = { score: player_rate[:score] }
+      score_params[:assessment] = player_rate[:assessment] if player_rate[:assessment].present?
+  
+      score.update(score_params)
+    end
+  end
+
+  def destroy
+    rate = Rate.find(params[:id]);
+    rate.destroy
   end
 
 
