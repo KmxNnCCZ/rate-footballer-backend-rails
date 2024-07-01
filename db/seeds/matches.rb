@@ -16,44 +16,47 @@
 base_url = "http://api.football-data.org/v4/competitions/PL/matches"
 header = { 'X-Auth-Token' => ENV['FOOTBALL_DATA_API_TOKEN']}
 
+(2021..2023).each do |plseason|
 
-(1..38).each{|matchday|
-  full_url = "#{base_url}?matchday=#{matchday}&season=#{2021}"
-  p full_url
+  (1..38).each{|matchday|
+    full_url = "#{base_url}?matchday=#{matchday}&season=#{plseason}"
+    p full_url
 
-  url = URI.parse(full_url)
-  https = Net::HTTP.new(url.host, url.port)
+    url = URI.parse(full_url)
+    https = Net::HTTP.new(url.host, url.port)
 
-  request = Net::HTTP::Get.new(url)
-  request['X-Auth-Token'] = header['X-Auth-Token']
+    request = Net::HTTP::Get.new(url)
+    request['X-Auth-Token'] = header['X-Auth-Token']
 
-  response_body = https.request(request).read_body
+    response_body = https.request(request).read_body
 
-  # Parse the JSON response body into a Ruby has
-  parsed_response = JSON.parse(response_body)
+    # Parse the JSON response body into a Ruby has
+    parsed_response = JSON.parse(response_body)
 
-  array_response = parsed_response['matches']
+    array_response = parsed_response['matches']
 
-  # 得られた情報から必要な情報だけを抽出し保存
-  array_response.each do |data|
-    home_team = Team.find_by(tla: data["homeTeam"]["tla"])
-    away_team = Team.find_by(tla: data["awayTeam"]["tla"])
-    season = data["season"]["startDate"].slice(2, 2) + "-" + data["season"]["endDate"].slice(2, 2)
-  
-    if Match.find_by(match_api_id: data["id"]).nil?
-      Match.create!(
-        match_api_id: data["id"],
-        utcDate: data["utcDate"],
-        season: season,
-        home_team_score: data["score"]["fullTime"]["home"],
-        away_team_score: data["score"]["fullTime"]["away"],
-        matchday:  data["matchday"],
-        home_team_id: home_team.id,
-        away_team_id: away_team.id
-      )
+    # 得られた情報から必要な情報だけを抽出し保存
+    array_response.each do |data|
+      home_team = Team.find_by(tla: data["homeTeam"]["tla"])
+      away_team = Team.find_by(tla: data["awayTeam"]["tla"])
+      season = data["season"]["startDate"].slice(2, 2) + "-" + data["season"]["endDate"].slice(2, 2)
+    
+      if Match.find_by(match_api_id: data["id"]).nil?
+        Match.create!(
+          match_api_id: data["id"],
+          utcDate: data["utcDate"],
+          season: season,
+          home_team_score: data["score"]["fullTime"]["home"],
+          away_team_score: data["score"]["fullTime"]["away"],
+          matchday:  data["matchday"],
+          home_team_id: home_team.id,
+          away_team_id: away_team.id
+        )
+      end
     end
-  end
 
-  # 一気に取得するとAPIの制限がかかるので各節ごとに3秒まつ
-  sleep(3)
-}
+    # 一気に取得するとAPIの制限がかかるので各節ごとに3秒まつ
+    sleep(3)
+  }
+
+end
