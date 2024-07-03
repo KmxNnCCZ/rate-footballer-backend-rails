@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
 
   def create
+    p current_user
     comment = current_user.comments.create(
       rate_id: params[:rate_id],
       body: params[:comment_body]

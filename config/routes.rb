@@ -17,4 +17,6 @@ Rails.application.routes.draw do
 
   resources :test, only: %i[index]
   get "hello_world", to: 'application#hello_world'
+
+  post "send_email", to: 'email#send_email'
 end
