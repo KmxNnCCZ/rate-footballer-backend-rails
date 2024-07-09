@@ -4,7 +4,8 @@ Rails.application.routes.draw do
                               at: 'auth', 
                               skip: [:omniauth_callbacks],
                               controllers: {
-                                registrations: 'auth/registrations'
+                                registrations: 'auth/registrations',
+                                passwords: 'auth/passwords'
                               }
 
   namespace :auth do
@@ -19,4 +20,11 @@ Rails.application.routes.draw do
   get "hello_world", to: 'application#hello_world'
 
   post "send_email", to: 'email#send_email'
+
+  resource :user, only: %i[update] do
+    member do
+      post 'send_change_request', to: 'users#send_change_request'
+      get 'has_permission/:token', to: 'users#has_permission'  # メール変更のフォームを表示する
+    end
+  end
 end
