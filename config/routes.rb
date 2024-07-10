@@ -5,12 +5,9 @@ Rails.application.routes.draw do
                               skip: [:omniauth_callbacks],
                               controllers: {
                                 registrations: 'auth/registrations',
-                                passwords: 'auth/passwords'
+                                sessions: 'auth/sessions',
+                                passwords: 'auth/passwords',
                               }
-
-  namespace :auth do
-    resources :sessions, only: %i[index]
-  end
 
   resources :matches, only: %i[index show], controller: 'competition_matches'
   resources :rates, only: %i[index show create edit update destroy]

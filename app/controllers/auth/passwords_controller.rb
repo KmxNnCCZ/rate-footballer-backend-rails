@@ -52,6 +52,8 @@ class Auth::PasswordsController < DeviseTokenAuth::ApplicationController
       if @user.update(password: params[:password])
         # パスワードの更新に成功した場合、リセットトークンを削除する
         @user.clear_reset_password_token
+        @user.allow_password_change = false
+        @user.save
         render json: { message: "パスワードが正常に更新されました。", status: :ok }
       else
         render json: { error: @user.errors.full_messages.join(", "), status: :unprocessable_entity }
