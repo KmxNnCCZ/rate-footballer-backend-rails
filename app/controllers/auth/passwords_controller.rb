@@ -12,7 +12,7 @@ class Auth::PasswordsController < DeviseTokenAuth::ApplicationController
         reset_password_token: reset_password_token,
         reset_password_sent_at: Time.now.utc
       )
-      UserMailer.change_request_email(user).deliver_now
+      UserMailer.change_request_email(user, ENV['FRONT_DOMAIN']).deliver_now
       # メール送信が完了した旨をレスポンスとして返す
       render json: { message: 'Reset password email sent successfully.', status: 'success' }, status: :ok
     else
