@@ -11,10 +11,9 @@ class UserMailer < ApplicationMailer
   end
 
   # パスワード変更の際に送るメール
-  def change_request_email(user, base_url)
+  def change_request_email(user)
     @user = user
-    p base_url
-    @url = "#{base_url}/user/edit/#{@user.reset_password_token}"
+    @url = "#{ENV['FRONT_DOMAIN']}/user/edit/#{@user.reset_password_token}"
     mail(to: @user.email, subject: 'パスワード変更リクエスト')
   end
 end
