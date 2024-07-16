@@ -1,8 +1,22 @@
+require Rails.root.join('app', 'modules', 'player_sorter')
+
 class RatesController < ApplicationController
 
+  # /rates
   def index
     rates = Rate.includes(:match, :team, scores: :player).all
     rate_with_scores = rates.map do |rate|
+
+      sorted_scores = PlayerSorter.sort_players(rate.scores.map do |score|
+        {
+          player_id: score.player_id,
+          position: score.player.position,
+          shirt_number: score.player.shirt_number,
+          name: score.player.name,
+          score: score.score,
+          assessment: score.assessment,
+        }
+      end)
       {
         id: rate.id,
         matchday: rate.match.matchday,
@@ -10,22 +24,25 @@ class RatesController < ApplicationController
         user_id: rate.user_id,
         team_short_name: rate.team.short_name,
         team_crest_url: rate.team.crest_url,
-        scores: rate.scores.map do |score|
-          {
-            player_id: score.player_id,
-            position: score.player.position,
-            shirt_number: score.player.shirt_number,
-            name: score.player.name,
-            score: score.score,
-          }
-        end
+        scores: sorted_scores,
       }
     end
     render json: rate_with_scores
   end
 
+  # /rates/:rateId
   def show
     rate = Rate.includes(:match, :team, :user, scores: :player).find(params[:id])
+    sorted_scores = PlayerSorter.sort_players(rate.scores.map do |score|
+      {
+        player_id: score.player_id,
+        position: score.player.position,
+        shirt_number: score.player.shirt_number,
+        name: score.player.name,
+        score: score.score,
+        assessment: score.assessment,
+      }
+    end)
     rate_with_scores = {
       id: rate.id,
       matchday: rate.match.matchday,
@@ -35,16 +52,7 @@ class RatesController < ApplicationController
       user_name: rate.user.name,
       team_name: rate.team.name,
       team_crest_url: rate.team.crest_url,
-      scores: rate.scores.map do |score|
-        {
-          player_id: score.player_id,
-          position: score.player.position,
-          shirt_number: score.player.shirt_number,
-          name: score.player.name,
-          score: score.score,
-          assessment: score.assessment,
-        }
-      end,
+      scores: sorted_scores,
       comments: rate.comments.includes(:user).map do |comment|
         {
           id: comment.id,
@@ -67,7 +75,6 @@ class RatesController < ApplicationController
         team_id: team.id,
         user_id: current_user.id
       )
-
       params[:player_rates].each do |player_rate|
         player = Player.find_by(player_api_id: player_rate[:player_api_id])
         if player
@@ -88,12 +95,23 @@ class RatesController < ApplicationController
     end
   end
 
+  # /rates/:rateId/edit
   def edit
     rate = Rate.includes(:match, :team, :user, scores: :player).find(params[:id])
     is_home = rate.match.home_team_id == rate.team_id
     match = rate.match
     reverse_team = is_home ? match.away_team : match.home_team
 
+    sorted_scores = PlayerSorter.sort_players((rate.scores).map do |score|
+      {
+        player_id: score.player.id,
+        position: score.player.position,
+        shirt_number: score.player.shirt_number,
+        name: score.player.name,
+        score: score.score,
+        assessment: score.assessment,
+      }
+    end)
     rate_with_scores = {
       id: rate.id,
       matchday: rate.match.matchday,
@@ -107,17 +125,7 @@ class RatesController < ApplicationController
       reverse_team_name: reverse_team.name,
       reverse_team_crest_url: reverse_team.crest_url,
       match_score: is_home ? "#{rate.match.home_team_score}-#{rate.match.away_team_score}" : "#{rate.match.away_team_score}-#{rate.match.home_team_score}",
-      scores: rate.scores.map do |score|
-        player = score.player
-        {
-          player_id: player.id,
-          position: player.position,
-          shirt_number: player.shirt_number,
-          name: player.name,
-          score: score.score,
-          assessment: score.assessment,
-        }
-      end
+      scores: sorted_scores
     }
     render json: rate_with_scores
   end
