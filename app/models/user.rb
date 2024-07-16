@@ -23,7 +23,6 @@
 
 
 class User < ApplicationRecord
-  before_create :generate_change_token
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
@@ -34,14 +33,6 @@ class User < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 50 }
   validates :email, uniqueness: true
-
-
-  def generate_change_token!
-    self.change_token = SecureRandom.urlsafe_base64
-    self.change_token_sent_at = Time.current
-    save!
-  end
-
 
   # パスワード変更用
   def reset_password_token_valid?

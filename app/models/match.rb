@@ -26,4 +26,6 @@ class Match < ApplicationRecord
   validates :away_team_score, presence: true, numericality: { only_integer: true }
   validates :matchday, presence: true, numericality: { only_integer: true }, length: { in: 1..2  }
 
+  scope :season, -> (season) { where(season: season) }
+  scope :matchday, -> (matchday) { where(matchday: matchday) }
 end
