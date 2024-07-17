@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :comments, only: %i[create update destroy]
 
   resources :test, only: %i[index]
-  get "hello_world", to: 'application#hello_world'
+  get "ranking", to: 'ranking#index'
 
   post "send_email", to: 'email#send_email'
 
