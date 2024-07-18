@@ -8,7 +8,7 @@ class RankingController < ApplicationController
         players.position, 
         players.shirt_number, 
         teams.name as team_name, 
-        teams.short_name,
+        teams.short_name as team_short_name,
         teams.crest_url as crest_url,
         AVG(scores.score) as average_score"
       ).group("players.id, 
@@ -16,8 +16,8 @@ class RankingController < ApplicationController
         players.name, 
         players.position, 
         players.shirt_number, 
-        teams.short_name,
-        teams.name,
+        team_name,
+        team_short_name,
         crest_url
         "
       ).order("average_score DESC")
@@ -30,9 +30,9 @@ class RankingController < ApplicationController
         name: rank.name,
         position: rank.position,
         shirt_number: rank.shirt_number,
-        team: rank.team_name,
-        short_name: rank.short_name,
-        crest_url: rank.crest_url,
+        team_name: rank.team_name,
+        team_short_name: rank.team_short_name,
+        team_crest_url: rank.crest_url,
         average_score: rank.average_score.to_f
       }
     end
