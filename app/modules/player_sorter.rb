@@ -19,9 +19,15 @@ module PlayerSorter
       "Centre-Forward" => 11,
     }
 
+    # キー名を統一するための変換処理
+    players.map! do |player|
+      player[:shirt_number] ||= player.delete(:shirtNumber)
+      player
+    end
+
     # ポジション、背番号の順でソート(ポジション、背番号がnilの時は無限大を返す)
     sorted = players.sort_by do |player|
-      [position_priority[player[:position]] || Float::INFINITY, player[:shirt_number] || Float::INFINITY]
+      [position_priority[player[:position]] || Float::INFINITY, player[:shirt_number].to_i || Float::INFINITY]
     end
     return sorted
   end

@@ -4,7 +4,7 @@ class RatesController < ApplicationController
 
   # /rates
   def index
-    rates = Rate.includes(:match, :team, scores: :player).all
+    rates = Rate.includes(:match, :team, :user, scores: :player).all
     rate_with_scores = rates.map do |rate|
 
       sorted_scores = PlayerSorter.sort_players(rate.scores.map do |score|
@@ -22,9 +22,11 @@ class RatesController < ApplicationController
         matchday: rate.match.matchday,
         season: rate.match.season,
         user_id: rate.user_id,
+        user_name: rate.user.name,
         team_short_name: rate.team.short_name,
         team_crest_url: rate.team.crest_url,
         scores: sorted_scores,
+        updated_at: rate.updated_at
       }
     end
     render json: rate_with_scores
