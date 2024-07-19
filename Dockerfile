@@ -1,4 +1,4 @@
-FROM ruby:latest
+FROM ruby:3.3.3
 
 ARG RUBYGEMS_VERSION=3.5.11
 
